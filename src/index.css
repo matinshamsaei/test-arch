@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Vazirmatn', Tahoma, sans-serif;
+}
+
+html {
+  color-scheme: light;
+  background-color: var(--color-stone-100);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+}
