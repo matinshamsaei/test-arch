@@ -1,0 +1,113 @@
+@startuml tapsi-dr-task
+title tapsi-dr-task structure
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam nodesep 30
+skinparam ranksep 28
+
+package "src/main.tsx" as entry {
+  class main <<entry>>
+}
+
+package "src/composition" {
+  class createContainer <<function>>
+  interface AppContainer
+}
+
+package "src/presentation" {
+  class App
+  class SchedulingStore
+  class ServiceOrder
+  class PresenceFields
+  class Results
+  class MockPanel
+}
+
+package "src/application" {
+  interface CatalogPort {
+    +getServices(): Service[]
+  }
+  interface CapacityPort {
+    +getSlots(date): SlotSnapshot
+  }
+  interface BookingPort {
+    +book(command): BookingReceipt
+  }
+  interface MockControlPort {
+    +setMode(mode)
+    +reset()
+  }
+  interface ScheduleSearch {
+    +execute(input): SearchOutcome
+  }
+  interface BookSchedule {
+    +execute(slotIds): BookingReceipt
+  }
+  interface SchedulingDependencies {
+    +catalog: CatalogPort
+    +search: ScheduleSearch
+    +book: BookSchedule
+    +controls: MockControlPort
+  }
+}
+
+package "src/domain" {
+  interface Service
+  interface Slot
+  interface Schedule
+  interface SlotSnapshot
+  class findTopSchedules <<function>>
+}
+
+package "src/infrastructure" {
+  interface InMemorySchedulingApi
+  class loadSampleDataset <<function>>
+}
+
+class "sample-data.json" as sample <<file>>
+
+main --> createContainer
+main --> SchedulingStore
+main --> App
+
+createContainer ..> AppContainer : returns
+createContainer --> InMemorySchedulingApi
+createContainer ..> ScheduleSearch : createScheduleSearch
+createContainer ..> BookSchedule : createBookSchedule
+AppContainer --|> SchedulingDependencies
+
+App --> ServiceOrder
+App --> PresenceFields
+App --> Results
+App --> MockPanel
+ServiceOrder --> SchedulingStore
+PresenceFields --> SchedulingStore
+Results --> SchedulingStore
+MockPanel --> SchedulingStore
+SchedulingStore --> SchedulingDependencies
+
+ScheduleSearch --> CapacityPort
+ScheduleSearch --> findTopSchedules
+BookSchedule --> BookingPort
+
+InMemorySchedulingApi ..|> CatalogPort
+InMemorySchedulingApi ..|> CapacityPort
+InMemorySchedulingApi ..|> BookingPort
+InMemorySchedulingApi ..|> MockControlPort
+InMemorySchedulingApi --> loadSampleDataset
+loadSampleDataset --> sample
+loadSampleDataset --> SlotSnapshot
+
+findTopSchedules --> Slot
+findTopSchedules --> Schedule
+Schedule o-- Slot
+SlotSnapshot o-- Slot
+
+note bottom of "src/domain"
+  Arrows point toward the dependency.
+  Domain imports neither React, the store, nor the mock.
+end note
+
+@enduml
