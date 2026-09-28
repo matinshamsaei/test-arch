@@ -1,0 +1,119 @@
+{
+  "date": "2026-10-03",
+  "timeZone": "Asia/Tehran",
+  "services": [
+    { "id": "S1", "title": "ویزیت پزشک", "durationMinutes": 30 },
+    { "id": "S2", "title": "آزمایشگاه", "durationMinutes": 20 },
+    { "id": "S3", "title": "تصویربرداری", "durationMinutes": 30 }
+  ],
+  "slots": [
+    {
+      "id": "a1",
+      "serviceId": "S1",
+      "doctorId": "d1",
+      "clinicId": "A",
+      "start": "09:00",
+      "end": "09:30",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "a2",
+      "serviceId": "S1",
+      "doctorId": "d2",
+      "clinicId": "B",
+      "start": "09:15",
+      "end": "09:45",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "a3",
+      "serviceId": "S1",
+      "doctorId": "d7",
+      "clinicId": "B",
+      "start": "09:30",
+      "end": "10:00",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "a4",
+      "serviceId": "S1",
+      "doctorId": "d1",
+      "clinicId": "A",
+      "start": "10:00",
+      "end": "10:30",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "b1",
+      "serviceId": "S2",
+      "doctorId": "d3",
+      "clinicId": "B",
+      "start": "09:55",
+      "end": "10:15",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "b2",
+      "serviceId": "S2",
+      "doctorId": "d4",
+      "clinicId": "A",
+      "start": "10:10",
+      "end": "10:30",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "b3",
+      "serviceId": "S2",
+      "doctorId": "d3",
+      "clinicId": "B",
+      "start": "10:20",
+      "end": "10:40",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "b4",
+      "serviceId": "S2",
+      "doctorId": "d4",
+      "clinicId": "A",
+      "start": "11:00",
+      "end": "11:20",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "c1",
+      "serviceId": "S3",
+      "doctorId": "d5",
+      "clinicId": "B",
+      "start": "10:25",
+      "end": "10:55",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "c2",
+      "serviceId": "S3",
+      "doctorId": "d8",
+      "clinicId": "B",
+      "start": "10:50",
+      "end": "11:20",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "c3",
+      "serviceId": "S3",
+      "doctorId": "d6",
+      "clinicId": "A",
+      "start": "11:00",
+      "end": "11:30",
+      "remainingCapacity": 1
+    },
+    {
+      "id": "c4",
+      "serviceId": "S3",
+      "doctorId": "d6",
+      "clinicId": "A",
+      "start": "11:35",
+      "end": "12:05",
+      "remainingCapacity": 1
+    }
+  ]
+}
