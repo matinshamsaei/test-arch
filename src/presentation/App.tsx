@@ -1,12 +1,17 @@
-import { useEffect } from 'react';
-import { SCHEDULE_DATE, SCHEDULE_TIME_ZONE } from '../domain/constants.ts';
-import { useScheduling } from './use-scheduling.ts';
-import { primaryButtonClass } from './styles.ts';
-import { MockPanel } from './components/MockPanel.tsx';
-import { Notice } from './components/Notice.tsx';
-import { PresenceFields } from './components/PresenceFields.tsx';
-import { Results } from './components/Results.tsx';
-import { ServiceOrder } from './components/ServiceOrder.tsx';
+import { useEffect } from "react";
+
+import {
+  SCHEDULE_DATE,
+  SCHEDULE_TIME_ZONE,
+} from "../domain/scheduling/constants.ts";
+
+import { useScheduling } from "./hooks";
+import { primaryButtonClass } from "./styles.ts";
+import { MockPanel } from "./components/MockPanel.tsx";
+import { Notice } from "./components/Notice.tsx";
+import { PresenceFields } from "./components/PresenceFields.tsx";
+import { Results } from "./components/Results.tsx";
+import { ServiceOrder } from "./components/ServiceOrder.tsx";
 
 export default function App() {
   const catalogPhase = useScheduling((state) => state.catalogPhase);
@@ -30,25 +35,31 @@ export default function App() {
           </p>
           <h1 className="mt-1 text-2xl font-bold">برنامه‌ریزی نوبت چندخدمتی</h1>
           <p className="mt-2 text-sm leading-6 text-stone-600">
-            دو یا سه خدمت را به ترتیب دریافت انتخاب کنید تا حداکثر سه برنامه برتر پیشنهاد شود.
+            دو یا سه خدمت را به ترتیب دریافت انتخاب کنید تا حداکثر سه برنامه
+            برتر پیشنهاد شود.
           </p>
         </header>
 
-        {catalogPhase === 'loading' && (
+        {catalogPhase === "loading" && (
           <Notice tone="info" role="status">
             در حال دریافت خدمات…
           </Notice>
         )}
-        {catalogPhase === 'error' && (
+
+        {catalogPhase === "error" && (
           <Notice tone="error" role="alert">
             <p>دریافت خدمات ناموفق بود.</p>
-            <button type="button" className={`${primaryButtonClass} mt-3`} onClick={() => void loadCatalog()}>
+            <button
+              type="button"
+              className={`${primaryButtonClass} mt-3`}
+              onClick={() => void loadCatalog()}
+            >
               دریافت دوباره خدمات
             </button>
           </Notice>
         )}
 
-        {catalogPhase === 'ready' && (
+        {catalogPhase === "ready" && (
           <form
             className="flex flex-col gap-4"
             onSubmit={(event) => {
@@ -66,8 +77,8 @@ export default function App() {
             <button
               type="submit"
               className={primaryButtonClass}
-              disabled={phase === 'booking'}
-              aria-describedby={formError ? 'form-error' : undefined}
+              disabled={phase === "booking"}
+              aria-describedby={formError ? "form-error" : undefined}
             >
               جستجوی برنامه
             </button>
@@ -75,6 +86,7 @@ export default function App() {
         )}
 
         <Results />
+
         <MockPanel />
       </main>
     </div>

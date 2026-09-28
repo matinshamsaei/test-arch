@@ -1,5 +1,5 @@
-import { useScheduling } from '../use-scheduling.ts';
-import { fieldClass } from '../styles.ts';
+import { useScheduling } from "../hooks";
+import { fieldClass } from "../styles.ts";
 
 export function PresenceFields() {
   const windowStart = useScheduling((state) => state.windowStart);
@@ -8,15 +8,23 @@ export function PresenceFields() {
   const setWindowEnd = useScheduling((state) => state.setWindowEnd);
 
   return (
-    <section className="rounded-2xl border border-stone-200 bg-white p-4" aria-labelledby="presence-heading">
+    <section
+      className="rounded-2xl border border-stone-200 bg-white p-4"
+      aria-labelledby="presence-heading"
+    >
       <h2 id="presence-heading" className="text-base font-bold">
         بازه حضور
       </h2>
+
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor="presence-start" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="presence-start"
+            className="mb-1 block text-sm font-medium"
+          >
             شروع حضور
           </label>
+
           <input
             id="presence-start"
             className={`${fieldClass} text-left`}
@@ -31,10 +39,15 @@ export function PresenceFields() {
             onChange={(event) => setWindowStart(event.target.value)}
           />
         </div>
+
         <div>
-          <label htmlFor="presence-end" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="presence-end"
+            className="mb-1 block text-sm font-medium"
+          >
             پایان حضور
           </label>
+
           <input
             id="presence-end"
             className={`${fieldClass} text-left`}

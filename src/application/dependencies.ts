@@ -1,6 +1,6 @@
-import type { BookSchedule } from './book-schedule.ts';
-import type { CatalogPort, MockControlPort } from './ports.ts';
-import type { ScheduleSearch } from './schedule-search.ts';
+import type { BookSchedule } from "./use-cases/book-schedule.ts";
+import type { CatalogPort, MockControlPort } from "./ports/index.ts";
+import type { ScheduleSearch } from "./use-cases/search-schedules.ts";
 
 export interface SchedulingDependencies {
   readonly catalog: CatalogPort;

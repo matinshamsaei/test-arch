@@ -1,4 +1,7 @@
-export type SchedulingErrorCode = 'SLOT_UNAVAILABLE' | 'TRANSIENT' | 'INVALID_REQUEST';
+export type SchedulingErrorCode =
+  | "SLOT_UNAVAILABLE"
+  | "TRANSIENT"
+  | "INVALID_REQUEST";
 
 export class SchedulingError extends Error {
   readonly code: SchedulingErrorCode;
@@ -10,7 +13,7 @@ export class SchedulingError extends Error {
     conflictingSlotIds: readonly string[] = [],
   ) {
     super(message);
-    this.name = 'SchedulingError';
+    this.name = "SchedulingError";
     this.code = code;
     this.conflictingSlotIds = conflictingSlotIds;
   }

@@ -1,7 +1,10 @@
-import sampleFile from '../../../sample-data.json';
-import { SCHEDULE_DATE, SCHEDULE_TIME_ZONE } from '../../domain/constants.ts';
-import type { Service, Slot } from '../../domain/types.ts';
-import { parseClock } from '../../domain/time.ts';
+import type { Service, Slot } from "../../../domain/scheduling/types/index.ts";
+import { parseClock } from "../../../domain/scheduling/utils/index.ts";
+import sampleFile from "../../../../sample-data.json";
+import {
+  SCHEDULE_DATE,
+  SCHEDULE_TIME_ZONE,
+} from "../../../domain/scheduling/constants.ts";
 
 interface SampleFile {
   readonly date: string;
@@ -33,7 +36,9 @@ export function loadSampleDataset(): { services: Service[]; slots: Slot[] } {
 
 function parseSample(file: SampleFile): { services: Service[]; slots: Slot[] } {
   if (file.date !== SCHEDULE_DATE || file.timeZone !== SCHEDULE_TIME_ZONE) {
-    throw new Error('Sample data date or time zone does not match the scheduling day.');
+    throw new Error(
+      "Sample data date or time zone does not match the scheduling day.",
+    );
   }
 
   return {
@@ -41,7 +46,11 @@ function parseSample(file: SampleFile): { services: Service[]; slots: Slot[] } {
     slots: file.slots.map((slot) => {
       const startMinutes = parseClock(slot.start);
       const endMinutes = parseClock(slot.end);
-      if (startMinutes == null || endMinutes == null || endMinutes <= startMinutes) {
+      if (
+        startMinutes == null ||
+        endMinutes == null ||
+        endMinutes <= startMinutes
+      ) {
         throw new Error(`Invalid sample slot: ${slot.id}`);
       }
 
