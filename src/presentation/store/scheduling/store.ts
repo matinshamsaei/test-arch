@@ -1,11 +1,11 @@
 import { createStore } from "zustand/vanilla";
 
-import type { SchedulingDependencies } from "../../application/dependencies.ts";
-import { isSchedulingError } from "../../application/errors/index.ts";
-import { validateForm } from "../validation/scheduling-form.ts";
-import { MAX_SERVICES } from "../../domain/scheduling/constants.ts";
+import type { SchedulingDependencies } from "@application/dependencies.ts";
+import { isSchedulingError } from "@application/errors";
+import { validateForm } from "../../validation";
+import { MAX_SERVICES } from "@domain/scheduling/constants.ts";
 
-import type { SchedulingState, SchedulingStore } from "./store.types.ts";
+import type { SchedulingState, SchedulingStore } from "./types";
 import {
   canBook,
   capacityMessage,
@@ -14,7 +14,7 @@ import {
   isCurrentResult,
   searchFailureMessage,
   toSearchInput,
-} from "./store.utils.ts";
+} from "./utils";
 
 const initialState: SchedulingState = {
   services: [],

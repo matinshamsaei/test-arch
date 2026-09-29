@@ -2,10 +2,10 @@ import { expect, it } from "vitest";
 import {
   SCHEDULE_DATE,
   SCHEDULE_TIME_ZONE,
-} from "../../domain/scheduling/constants.ts";
-import { loadSampleDataset } from "../../infrastructure/adapters/mock/dataset.ts";
-import type { CapacityPort } from "../ports/index.ts";
-import type { SlotSnapshot } from "../../domain/scheduling/types/index.ts";
+} from "@domain/scheduling/constants.ts";
+import { loadSampleDataset } from "@infrastructure/adapters/mock/dataset.ts";
+import type { CapacityPort } from "../ports";
+import type { SlotSnapshot } from "@domain/scheduling/types";
 import { createScheduleSearch } from "./search-schedules.ts";
 
 it("drops a slower search after a newer search has already resolved", async () => {

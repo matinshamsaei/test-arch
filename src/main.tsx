@@ -5,11 +5,10 @@ import "@fontsource/vazirmatn/400.css";
 import "@fontsource/vazirmatn/500.css";
 import "@fontsource/vazirmatn/700.css";
 
-import App from "./presentation/App.tsx";
+import App from "@presentation/App.tsx";
 
-import { createContainer } from "./composition/container.ts";
-import { SchedulingStoreProvider } from "./presentation/store/StoreProvider.tsx";
-import { createSchedulingStore } from "./presentation/store/store.ts";
+import { createContainer } from "@composition/container.ts";
+import { SchedulingStoreProvider, createSchedulingStore } from "@presentation/store";
 
 import "./index.css";
 

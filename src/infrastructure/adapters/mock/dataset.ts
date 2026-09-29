@@ -1,10 +1,10 @@
-import type { Service, Slot } from "../../../domain/scheduling/types/index.ts";
-import { parseClock } from "../../../domain/scheduling/utils/index.ts";
+import type { Service, Slot } from "@domain/scheduling/types";
+import { parseClock } from "@domain/scheduling/utils";
 import sampleFile from "../../../../sample-data.json";
 import {
   SCHEDULE_DATE,
   SCHEDULE_TIME_ZONE,
-} from "../../../domain/scheduling/constants.ts";
+} from "@domain/scheduling/constants.ts";
 
 interface SampleFile {
   readonly date: string;

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import type { StoreApi } from "zustand";
 
-import type { SchedulingStore } from "./store.types.ts";
-import { SchedulingStoreContext } from "./store.context.ts";
+import type { SchedulingStore } from "../types";
+import { SchedulingStoreContext } from "../contexts";
 
 export function SchedulingStoreProvider({
   store,

@@ -1,13 +1,10 @@
 import {
   SCHEDULE_DATE,
   SCHEDULE_TIME_ZONE,
-} from "../../../domain/scheduling/constants.ts";
-import type { Service, Slot } from "../../../domain/scheduling/types/index.ts";
-import { SchedulingError } from "../../../application/errors/index.ts";
-import type {
-  BookingReceipt,
-  MockMode,
-} from "../../../application/ports/index.ts";
+} from "@domain/scheduling/constants.ts";
+import type { Service, Slot } from "@domain/scheduling/types";
+import { SchedulingError } from "@application/errors";
+import type { BookingReceipt, MockMode } from "@application/ports";
 import { responseDelay } from "../../utils";
 
 import { loadSampleDataset } from "./dataset.ts";

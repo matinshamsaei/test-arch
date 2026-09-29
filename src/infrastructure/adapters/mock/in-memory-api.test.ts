@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { SCHEDULE_DATE } from "../../../domain/scheduling/constants.ts";
+import { SCHEDULE_DATE } from "@domain/scheduling/constants.ts";
 
 import { createInMemorySchedulingApi } from "./in-memory-scheduling-api.ts";
 

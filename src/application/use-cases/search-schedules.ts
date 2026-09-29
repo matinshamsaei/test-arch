@@ -1,9 +1,6 @@
-import { findTopSchedules } from "../../domain/scheduling/index.ts";
-import type {
-  PresenceWindow,
-  Schedule,
-} from "../../domain/scheduling/types/index.ts";
-import type { CapacityPort } from "../ports/index.ts";
+import { findTopSchedules } from "@domain/scheduling";
+import type { PresenceWindow, Schedule } from "@domain/scheduling/types";
+import type { CapacityPort } from "../ports";
 
 export interface SearchInput {
   readonly date: string;

@@ -3,15 +3,17 @@ import { useEffect } from "react";
 import {
   SCHEDULE_DATE,
   SCHEDULE_TIME_ZONE,
-} from "../domain/scheduling/constants.ts";
+} from "@domain/scheduling/constants.ts";
 
+import {
+  MockControlPanel,
+  PresenceWindowFields,
+  ScheduleResults,
+  StatusNotice,
+  VisitServicePicker,
+} from "./components";
 import { useScheduling } from "./hooks";
 import { primaryButtonClass } from "./styles.ts";
-import { MockPanel } from "./components/MockPanel.tsx";
-import { Notice } from "./components/Notice.tsx";
-import { PresenceFields } from "./components/PresenceFields.tsx";
-import { Results } from "./components/Results.tsx";
-import { ServiceOrder } from "./components/ServiceOrder.tsx";
 
 export default function App() {
   const catalogPhase = useScheduling((state) => state.catalogPhase);
@@ -41,13 +43,13 @@ export default function App() {
         </header>
 
         {catalogPhase === "loading" && (
-          <Notice tone="info" role="status">
+          <StatusNotice tone="info" role="status">
             در حال دریافت خدمات…
-          </Notice>
+          </StatusNotice>
         )}
 
         {catalogPhase === "error" && (
-          <Notice tone="error" role="alert">
+          <StatusNotice tone="error" role="alert">
             <p>دریافت خدمات ناموفق بود.</p>
             <button
               type="button"
@@ -56,7 +58,7 @@ export default function App() {
             >
               دریافت دوباره خدمات
             </button>
-          </Notice>
+          </StatusNotice>
         )}
 
         {catalogPhase === "ready" && (
@@ -67,8 +69,8 @@ export default function App() {
               void search();
             }}
           >
-            <ServiceOrder />
-            <PresenceFields />
+            <VisitServicePicker />
+            <PresenceWindowFields />
             {formError && (
               <p id="form-error" role="alert" className="text-sm text-red-800">
                 {formError}
@@ -85,9 +87,9 @@ export default function App() {
           </form>
         )}
 
-        <Results />
+        <ScheduleResults />
 
-        <MockPanel />
+        <MockControlPanel />
       </main>
     </div>
   );

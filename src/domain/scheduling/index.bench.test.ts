@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 
-import { findTopSchedules } from "./index.ts";
-import type { Slot } from "./types/index.ts";
+import { findTopSchedules } from ".";
+import type { Slot } from "./types";
 
 it("measures exhaustive search for 3 services and 50 slots each", () => {
   const slots = [

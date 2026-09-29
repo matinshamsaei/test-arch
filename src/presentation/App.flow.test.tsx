@@ -6,11 +6,10 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
-import { createContainer } from "../composition/container.ts";
+import { createContainer } from "@composition/container.ts";
 
 import App from "./App.tsx";
-import { SchedulingStoreProvider } from "./store/StoreProvider.tsx";
-import { createSchedulingStore } from "./store/store.ts";
+import { createSchedulingStore, SchedulingStoreProvider } from "./store";
 
 afterEach(() => {
   cleanup();

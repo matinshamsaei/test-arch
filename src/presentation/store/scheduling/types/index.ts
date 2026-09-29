@@ -2,8 +2,8 @@ import type {
   Schedule,
   Service,
   Slot,
-} from "../../domain/scheduling/types/index.ts";
-import type { MockMode } from "../../application/ports/index.ts";
+} from "@domain/scheduling/types";
+import type { MockMode } from "@application/ports";
 
 type ViewPhase =
   | "idle"

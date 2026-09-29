@@ -7,13 +7,15 @@ const tones = {
   success: "border-emerald-200 bg-emerald-50 text-emerald-950",
 } as const;
 
-type NoticeProps = {
-  tone: keyof typeof tones;
+export type StatusNoticeTone = keyof typeof tones;
+
+type StatusNoticeProps = {
+  tone: StatusNoticeTone;
   role?: "alert" | "status";
   children: ReactNode;
 };
 
-export function Notice({ tone, role, children }: NoticeProps) {
+export function StatusNotice({ tone, role, children }: StatusNoticeProps) {
   return (
     <div
       role={role}

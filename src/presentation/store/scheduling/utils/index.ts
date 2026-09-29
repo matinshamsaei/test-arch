@@ -1,9 +1,9 @@
-import { isSchedulingError } from "../../application/errors";
-import type { SearchInput } from "../../application/use-cases/search-schedules";
-import { SCHEDULE_DATE } from "../../domain/scheduling/constants";
-import { parseClock } from "../../domain/scheduling/utils";
+import { isSchedulingError } from "@application/errors";
+import type { SearchInput } from "@application/use-cases/search-schedules";
+import { SCHEDULE_DATE } from "@domain/scheduling/constants";
+import { parseClock } from "@domain/scheduling/utils";
 
-import type { SchedulingState } from "./store.types";
+import type { SchedulingState } from "../types";
 
 export function formKey(
   state: Pick<SchedulingState, "selectedIds" | "windowStart" | "windowEnd">,

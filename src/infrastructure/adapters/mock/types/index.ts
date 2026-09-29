@@ -3,7 +3,7 @@ import type {
   CatalogPort,
   BookingPort,
   CapacityPort,
-} from "../../../../application/ports/index";
+} from "@application/ports";
 
 export type InMemorySchedulingApi = CatalogPort &
   CapacityPort &

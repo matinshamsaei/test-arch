@@ -1,4 +1,4 @@
-import type { BookingPort, BookingReceipt } from "../ports/index";
+import type { BookingPort, BookingReceipt } from "../ports";
 
 export interface BookSchedule {
   execute(slotIds: readonly string[]): Promise<BookingReceipt>;

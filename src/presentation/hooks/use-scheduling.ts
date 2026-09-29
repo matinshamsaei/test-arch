@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useStore } from "zustand";
 
-import type { SchedulingStore } from "../store/store.types.ts";
-import { SchedulingStoreContext } from "../store/store.context.ts";
+import type { SchedulingStore } from "../store";
+import { SchedulingStoreContext } from "../store";
 
 export default function useScheduling<T>(
   selector: (state: SchedulingStore) => T,

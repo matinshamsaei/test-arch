@@ -1,15 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { loadSampleDataset } from "../../infrastructure/adapters/mock/dataset.ts";
+import { loadSampleDataset } from "@infrastructure/adapters/mock/dataset.ts";
 
-import { InvalidScheduleQueryError } from "./errors/index.ts";
-import { parseClock } from "./utils/index.ts";
-import type { PresenceWindow, Schedule, Slot } from "./types/index.ts";
-import {
-  compareSchedules,
-  findTopSchedules,
-  requiredGapMinutes,
-} from "./index.ts";
+import { InvalidScheduleQueryError } from "./errors";
+import { parseClock } from "./utils";
+import type { PresenceWindow, Schedule, Slot } from "./types";
+import { compareSchedules, findTopSchedules, requiredGapMinutes } from ".";
 
 const serviceOrder = ["S1", "S2", "S3"] as const;
 

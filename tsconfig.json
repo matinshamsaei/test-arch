@@ -1,5 +1,19 @@
 {
   "files": [],
+  "compilerOptions": {
+    "paths": {
+      "@application": ["./src/application"],
+      "@application/*": ["./src/application/*"],
+      "@composition": ["./src/composition"],
+      "@composition/*": ["./src/composition/*"],
+      "@domain": ["./src/domain"],
+      "@domain/*": ["./src/domain/*"],
+      "@infrastructure": ["./src/infrastructure"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@presentation": ["./src/presentation"],
+      "@presentation/*": ["./src/presentation/*"]
+    }
+  },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }

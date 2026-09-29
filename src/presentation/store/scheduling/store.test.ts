@@ -1,18 +1,18 @@
 import { expect, it } from "vitest";
 
-import type { BookingReceipt } from "../../application/ports/index.ts";
-import { createContainer } from "../../composition/container.ts";
-import { loadSampleDataset } from "../../infrastructure/adapters/mock/dataset.ts";
-import type { CapacityPort } from "../../application/ports/index.ts";
-import type { SlotSnapshot } from "../../domain/scheduling/types/index.ts";
-import { createScheduleSearch } from "../../application/use-cases/search-schedules.ts";
+import type { BookingReceipt } from "@application/ports";
+import { createContainer } from "@composition/container.ts";
+import { loadSampleDataset } from "@infrastructure/adapters/mock/dataset.ts";
+import type { CapacityPort } from "@application/ports";
+import type { SlotSnapshot } from "@domain/scheduling/types";
+import { createScheduleSearch } from "@application/use-cases/search-schedules.ts";
 import {
   SCHEDULE_DATE,
   SCHEDULE_TIME_ZONE,
-} from "../../domain/scheduling/constants.ts";
+} from "@domain/scheduling/constants.ts";
 
 import { createSchedulingStore } from "./store.ts";
-import { canBook } from "./store.utils.ts";
+import { canBook } from "./utils";
 
 const instant = async () => {};
 
