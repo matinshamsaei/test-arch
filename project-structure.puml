@@ -1,113 +1,168 @@
-@startuml tapsi-dr-task
-title tapsi-dr-task structure
+@startuml tapsi-dr-task-architecture
+title Multi-service visit planner\nClean Architecture — arrows point toward the dependency
 
 skinparam shadowing false
 skinparam linetype ortho
-skinparam packageStyle rectangle
-skinparam nodesep 30
-skinparam ranksep 28
+skinparam nodesep 36
+skinparam ranksep 32
+skinparam roundCorner 12
+skinparam DefaultFontName Helvetica
+skinparam DefaultFontSize 12
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #64748B
+skinparam ArrowFontSize 10
+skinparam StereotypeFontSize 10
+skinparam backgroundColor #F8FAFC
+skinparam wrapWidth 200
 
-package "src/main.tsx" as entry {
-  class main <<entry>>
+skinparam rectangle {
+  BorderThickness 1.5
+  BackgroundColor #FFFFFF
 }
 
-package "src/composition" {
-  class createContainer <<function>>
-  interface AppContainer
+skinparam package {
+  FontStyle bold
+  FontSize 13
+  BorderThickness 1.5
+  BackgroundColor #FFFFFF
 }
 
-package "src/presentation" {
-  class App
-  class SchedulingStore
-  class ServiceOrder
-  class PresenceFields
-  class Results
-  class MockPanel
+skinparam note {
+  BackgroundColor #FFFBEB
+  BorderColor #D97706
+  FontColor #78350F
+  FontSize 11
 }
 
-package "src/application" {
-  interface CatalogPort {
-    +getServices(): Service[]
+hide circle
+hide empty members
+
+rectangle "src/main.tsx\ncomposition root · React mount" as boot <<bootstrap>> #E0E7FF
+
+package "src/composition" as pkgComposition #EEF2FF {
+  rectangle "createContainer()" as createContainer <<factory>>
+  rectangle "AppContainer" as AppContainer <<root>>
+}
+
+package "src/presentation" as pkgPresentation #FFF7ED {
+  rectangle "App" as App <<ui>>
+  rectangle "VisitServicePicker\nPresenceWindowFields\nScheduleResults\nMockControlPanel\nStatusNotice" as views <<ui>>
+  rectangle "useScheduling" as useScheduling <<hook>>
+  rectangle "createSchedulingStore\nSchedulingStoreProvider" as schedulingStore <<zustand>>
+  rectangle "validateForm" as validateForm <<pure>>
+}
+
+package "src/application" as pkgApplication #EFF6FF {
+  package "use cases" as pkgUseCases {
+    rectangle "ScheduleSearch\ncreateScheduleSearch()" as scheduleSearch <<use case>>
+    rectangle "BookSchedule\ncreateBookSchedule()" as bookSchedule <<use case>>
   }
-  interface CapacityPort {
-    +getSlots(date): SlotSnapshot
-  }
-  interface BookingPort {
-    +book(command): BookingReceipt
-  }
-  interface MockControlPort {
-    +setMode(mode)
-    +reset()
-  }
-  interface ScheduleSearch {
-    +execute(input): SearchOutcome
-  }
-  interface BookSchedule {
-    +execute(slotIds): BookingReceipt
-  }
-  interface SchedulingDependencies {
-    +catalog: CatalogPort
-    +search: ScheduleSearch
-    +book: BookSchedule
-    +controls: MockControlPort
+  rectangle "SchedulingDependencies" as schedulingDeps <<facade>>
+  package "outbound ports" as pkgPorts {
+    rectangle "CatalogPort" as CatalogPort <<port>>
+    rectangle "CapacityPort" as CapacityPort <<port>>
+    rectangle "BookingPort" as BookingPort <<port>>
+    rectangle "MockControlPort" as MockControlPort <<port>>
   }
 }
 
-package "src/domain" {
-  interface Service
-  interface Slot
-  interface Schedule
-  interface SlotSnapshot
-  class findTopSchedules <<function>>
+package "src/domain/scheduling" as pkgDomain #ECFDF5 {
+  rectangle "findTopSchedules()" as findTopSchedules <<pure>>
+  rectangle "assertQuery\neligibleSlots\nsearchLevel (DFS + prune)\ninsertTop / compareSchedules" as rankingPipeline <<pure>>
+  rectangle "Service · Slot · Schedule\nPresenceWindow · SlotSnapshot" as domainModel <<model>>
 }
 
-package "src/infrastructure" {
-  interface InMemorySchedulingApi
-  class loadSampleDataset <<function>>
+package "src/infrastructure" as pkgInfrastructure #F1F5F9 {
+  rectangle "createInMemorySchedulingApi()" as inMemoryApi <<adapter>>
+  rectangle "loadSampleDataset()" as loadSampleDataset <<adapter>>
 }
 
-class "sample-data.json" as sample <<file>>
+rectangle "sample-data.json" as sampleData <<artifact>> #FEF3C7
 
-main --> createContainer
-main --> SchedulingStore
-main --> App
+boot --> createContainer
+boot --> schedulingStore
+boot --> App
 
-createContainer ..> AppContainer : returns
-createContainer --> InMemorySchedulingApi
-createContainer ..> ScheduleSearch : createScheduleSearch
-createContainer ..> BookSchedule : createBookSchedule
-AppContainer --|> SchedulingDependencies
+createContainer --> AppContainer
+createContainer ..> inMemoryApi : constructs
+createContainer ..> scheduleSearch : createScheduleSearch
+createContainer ..> bookSchedule : createBookSchedule
+AppContainer --|> schedulingDeps
 
-App --> ServiceOrder
-App --> PresenceFields
-App --> Results
-App --> MockPanel
-ServiceOrder --> SchedulingStore
-PresenceFields --> SchedulingStore
-Results --> SchedulingStore
-MockPanel --> SchedulingStore
-SchedulingStore --> SchedulingDependencies
+App --> views
+views --> useScheduling
+useScheduling --> schedulingStore
+schedulingStore --> validateForm
+schedulingStore --> schedulingDeps
 
-ScheduleSearch --> CapacityPort
-ScheduleSearch --> findTopSchedules
-BookSchedule --> BookingPort
+schedulingDeps --> CatalogPort
+schedulingDeps --> scheduleSearch
+schedulingDeps --> bookSchedule
+schedulingDeps --> MockControlPort
 
-InMemorySchedulingApi ..|> CatalogPort
-InMemorySchedulingApi ..|> CapacityPort
-InMemorySchedulingApi ..|> BookingPort
-InMemorySchedulingApi ..|> MockControlPort
-InMemorySchedulingApi --> loadSampleDataset
-loadSampleDataset --> sample
-loadSampleDataset --> SlotSnapshot
+scheduleSearch --> CapacityPort
+scheduleSearch --> findTopSchedules
+bookSchedule --> BookingPort
 
-findTopSchedules --> Slot
-findTopSchedules --> Schedule
-Schedule o-- Slot
-SlotSnapshot o-- Slot
+findTopSchedules --> rankingPipeline
+rankingPipeline --> domainModel
 
-note bottom of "src/domain"
-  Arrows point toward the dependency.
-  Domain imports neither React, the store, nor the mock.
+inMemoryApi ..|> CatalogPort
+inMemoryApi ..|> CapacityPort
+inMemoryApi ..|> BookingPort
+inMemoryApi ..|> MockControlPort
+inMemoryApi --> loadSampleDataset
+loadSampleDataset --> sampleData
+loadSampleDataset --> domainModel
+
+legend right
+  |= Stereotype |= Role |
+  | <<bootstrap>> | Process mount |
+  | <<factory>> | Wires ports to use cases |
+  | <<ui>> / <<zustand>> | React + page state |
+  | <<use case>> | Application orchestration |
+  | <<port>> | Outbound contract (no I/O) |
+  | <<pure>> | Domain: no React, store, or mock |
+  | <<adapter>> | In-memory backend for this task |
+  | solid arrow | uses / calls |
+  | dashed arrow | implements |
+endlegend
+
+note as dependencyRule
+  **Dependency rule**
+  Presentation and infrastructure depend inward.
+  Domain imports neither React, Zustand, nor the mock.
+  Stale-search request ids live in ScheduleSearch,
+  not in the ranking algorithm.
 end note
+
+dependencyRule .. pkgDomain
+
+newpage
+
+title Domain search pipeline — findTopSchedules
+
+rectangle "1. assertQuery\n2–3 distinct services, valid window" as stepAssert #ECFDF5
+rectangle "2. eligibleSlots per service\ncapacity, window, matching serviceId" as stepFilter #ECFDF5
+rectangle "3. Any eligible group empty?" as stepEmpty #FEF3C7
+rectangle "return []" as stepNone #FEE2E2
+rectangle "4. DFS searchLevel\npick one slot per service in order\nprune if gap < 10 same clinic\nor < 30 different clinic" as stepSearch #ECFDF5
+rectangle "5. toRanked\nendMinutes + totalGapMinutes" as stepRank #ECFDF5
+rectangle "6. insertTop (keep 3)\n1. earlier finish\n2. smaller total gap\n3. ASCII slot ids" as stepTop #ECFDF5
+rectangle "7. materialize → Schedule[]" as stepOut #D1FAE5
+
+stepAssert --> stepFilter
+stepFilter --> stepEmpty
+stepEmpty --> stepNone : yes
+stepEmpty --> stepSearch : no
+stepSearch --> stepRank
+stepRank --> stepTop
+stepTop --> stepOut
+
+legend right
+  Time **O(kN + k · product of g_i)** with k in {2, 3}
+  Result memory **O(1)** — buffer of 3
+  Extra workspace **O(N)**
+endlegend
 
 @enduml
