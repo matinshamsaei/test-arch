@@ -5,22 +5,24 @@ import "@fontsource/vazirmatn/400.css";
 import "@fontsource/vazirmatn/500.css";
 import "@fontsource/vazirmatn/700.css";
 
-import App from "@presentation/App.tsx";
-
+import App from "@presentation/app/App.tsx";
+import { createAppStores } from "@presentation/app/features.ts";
+import { AppStoresProvider } from "@presentation/app/providers.tsx";
+import { createQueryClient } from "@presentation/app/query-client.ts";
 import { createContainer } from "@composition/container.ts";
-import { SchedulingStoreProvider, createSchedulingStore } from "@presentation/store";
 
 import "./index.css";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element is missing.");
 
-const store = createSchedulingStore(createContainer());
+const stores = createAppStores(createContainer());
+const queryClient = createQueryClient();
 
 createRoot(root).render(
   <StrictMode>
-    <SchedulingStoreProvider store={store}>
+    <AppStoresProvider stores={stores} queryClient={queryClient}>
       <App />
-    </SchedulingStoreProvider>
+    </AppStoresProvider>
   </StrictMode>,
 );

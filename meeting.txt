@@ -1,0 +1,8 @@
+1. Clean chist?
+1.1 Domain
+2. clean -- physician (diff), how to implement?!!
+3. Developer experience?
+4. React or Next?
+
+avoid
+/presentation
