@@ -13,11 +13,11 @@ Dependencies point **inward**:
 ```text
 Presentation  →  Application  →  Domain
 Composition   →  Application + Infrastructure (wiring only)
-Infrastructure → Application ports / Domain types (adapters)
+Infrastructure → Application repositories / Domain types (adapters)
 ```
 
 - **Domain** imports nothing from presentation, application orchestration, infrastructure.
-- **Application** depends on domain and on **ports** (interfaces) it owns; it does not know which adapter is plugged in.
+- **Application** depends on domain and on **repositories** (interfaces) it owns; it does not know which adapter is plugged in.
 - **Presentation** talks to application through use cases / containers, never to HTTP clients or adapters directly.
 - **Composition** is the only place that chooses concrete adapters and injects them into use cases.
 
@@ -49,17 +49,17 @@ Domain answers *“is this valid / allowed / ranked correctly?”* — not *“h
 | Responsibility | Examples of what lives here |
 | --- | --- |
 | Use cases | Search schedules, book schedule, list active bookings, complete booking, cancel booking |
-| Outbound ports / repository contracts | Catalog, capacity, booking, mock control; in-person booking repository |
+| Repository contracts | Catalog, capacity, booking, mock control; in-person booking repository |
 | Application-level concerns | Stale-request / race handling, loading then applying a domain transition, then saving |
 | Application errors | Failures that belong to the workflow, not to UI copy |
 
-Use cases call domain rules, then persist or load through ports. They do **not** choose in-memory vs HTTP, and they do **not** render UI.
+Use cases call domain rules, then persist or load through repositories. They do **not** choose in-memory vs HTTP, and they do **not** render UI.
 
 Application answers *“in what order do we load, decide, and save?”*.
 
 ### Infrastructure (`src/infrastructure`)
 
-**Owns the outside world.** Implements application ports.
+**Owns the outside world.** Implements application repositories.
 
 | Responsibility | Examples of what lives here |
 | --- | --- |
@@ -139,7 +139,7 @@ Until we are forced to vendor or re-implement them locally, we **reuse the same 
 | Business types, statuses, allowed actions | Domain |
 | Ranking, eligibility, cancellation/completion transitions | Domain |
 | “Load → apply rule → save” workflows | Application |
-| Port / repository interfaces | Application |
+| Repository interfaces | Application |
 | HTTP, auth headers, DTO mapping, mocks | Infrastructure |
 | Choosing memory vs HTTP and injecting use cases | Composition |
 | Screens, feature components, UX validation, copy | Presentation `containers/` |
